@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getPaymentGrid, togglePayment } from "../services/paymentService";
 import {
   Table, TableBody, TableCell, TableContainer,
@@ -6,20 +6,22 @@ import {
 } from "@mui/material";
 
 const quarters = ["Q1", "Q2", "Q3", "Q4"];
-const role = localStorage.getItem("role");
-const isAdmin = role === "ADMIN";
+//const role = localStorage.getItem("role");
+//const isAdmin = role === "ADMIN";
+const role = localStorage.getItem("role") || "";
+const isAdmin = role.toUpperCase().includes("ADMIN");
 
 const PaymentGrid = ({ year, onUpdate }) => {
   const [data, setData] = useState([]);
 
   const loadData = useCallback(async () => {
-  const res = await getPaymentGrid(year);
-  setData(res.data);
-}, [year]);
+    const res = await getPaymentGrid(year);
+    setData(res.data);
+  }, [year]);
 
-useEffect(() => {
-  loadData();
-}, [loadData]);
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const handleToggle = async (id) => {
     await togglePayment(id);
@@ -57,9 +59,12 @@ useEffect(() => {
                       label={payment.status}
                       color={payment.status === "PAID" ? "success" : "error"}
                       size="small"
-                      //onClick={isAdmin ? () => handleToggle(payment.id) : undefined}
-                      onClick={() => handleToggle(payment.id)}
-                      sx={{ cursor: "pointer" }}
+                      onClick={isAdmin ? () => handleToggle(payment.id) : undefined}
+
+                      sx={{
+                        cursor: isAdmin ? "pointer" : "not-allowed",
+                        opacity: isAdmin ? 1 : 0.6
+                      }}
                     />
                   </TableCell>
                 );
