@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getPaymentGrid, togglePayment } from "../services/paymentService";
 import {
   Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Button, Chip
+  TableHead, TableRow, Paper, Chip
 } from "@mui/material";
 
 const quarters = ["Q1", "Q2", "Q3", "Q4"];
