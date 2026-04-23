@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback,useEffect, useState } from "react";
 
 import { addExpense, getExpenses, updateExpense, deleteExpense } from "../services/expenseService";
 import EditIcon from "@mui/icons-material/Edit";
@@ -37,14 +37,14 @@ const Expenses = () => {
     const role = localStorage.getItem("role");
     const isAdmin = role === "ADMIN";
 
-    const loadExpenses = async () => {
+    const loadExpenses = useCallback(async () => {
         const res = await getExpenses(filterYear, filterQuarter);
         setExpenses(res.data);
-    };
+    },[filterYear, filterQuarter]);
 
     useEffect(() => {
         loadExpenses();
-    }, [filterYear, filterQuarter]);
+    }, [loadExpenses]);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });

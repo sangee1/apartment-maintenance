@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback,useEffect, useState } from "react";
 import { getPaymentGrid, togglePayment } from "../services/paymentService";
 import {
   Table, TableBody, TableCell, TableContainer,
@@ -12,14 +12,14 @@ const isAdmin = role === "ADMIN";
 const PaymentGrid = ({ year, onUpdate }) => {
   const [data, setData] = useState([]);
 
-  const loadData = async () => {
-    const res = await getPaymentGrid(year);
-    setData(res.data);
-  };
+  const loadData = useCallback(async () => {
+  const res = await getPaymentGrid(year);
+  setData(res.data);
+}, [year]);
 
-  useEffect(() => {
-    loadData();
-  }, [year]);
+useEffect(() => {
+  loadData();
+}, [loadData]);
 
   const handleToggle = async (id) => {
     await togglePayment(id);

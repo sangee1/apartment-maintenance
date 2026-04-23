@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback,useEffect, useState } from "react";
 
 import PaymentGrid from "../components/PaymentGrid";
 import SummaryCards from "../components/SummaryCards";
@@ -10,14 +10,14 @@ const Dashboard = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [summary, setSummary] = useState(null);
 
-  const loadSummary = async () => {
+  const loadSummary = useCallback(async () => {
     const res = await getDashboardSummary(year);
     setSummary(res.data);
-  };
+  }, [year]);
 
   useEffect(() => {
     loadSummary();
-  }, [year]);
+  }, [loadSummary]);
 
   return (
     <Container maxWidth="lg">
