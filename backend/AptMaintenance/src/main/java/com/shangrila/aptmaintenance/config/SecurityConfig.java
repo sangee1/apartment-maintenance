@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ KEY
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
 
                         // 🔥 Allow BOTH to view
