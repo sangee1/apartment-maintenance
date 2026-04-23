@@ -57,7 +57,8 @@ useEffect(() => {
                       label={payment.status}
                       color={payment.status === "PAID" ? "success" : "error"}
                       size="small"
-                      onClick={isAdmin ? () => handleToggle(payment.id) : undefined}
+                      //onClick={isAdmin ? () => handleToggle(payment.id) : undefined}
+                      onClick={() => handleToggle(payment.id)}
                       sx={{ cursor: "pointer" }}
                     />
                   </TableCell>
