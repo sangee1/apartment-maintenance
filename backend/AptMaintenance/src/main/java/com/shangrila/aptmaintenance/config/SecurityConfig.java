@@ -45,6 +45,7 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.DELETE, "/api/expenses/**")
                         .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/payments/**")
                         .hasRole("ADMIN")
 
@@ -60,7 +61,8 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedOrigins(List.of("http://localhost:3000",
+                "https://apartment-maintenance-eight.vercel.app/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
