@@ -25,7 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    @Override
+    /**@Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -69,6 +69,50 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
+        filterChain.doFilter(request, response);
+    }**/
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+
+        // ✅ Allow auth endpoints
+        if (path.startsWith("/api/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String header = request.getHeader("Authorization");
+
+        try {
+            if (header != null && header.startsWith("Bearer ")) {
+
+                String token = header.substring(7);
+
+                String username = jwtUtil.extractUsername(token);
+
+                String role = jwtUtil.extractRole(token);
+
+                UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(
+                                username,
+                                null,
+                                List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                        );
+
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+
+        } catch (Exception e) {
+            // 🔥 VERY IMPORTANT → DO NOT THROW
+            System.out.println("JWT Error: " + e.getMessage());
+        }
+
+        // ✅ ALWAYS continue
         filterChain.doFilter(request, response);
     }
 }
