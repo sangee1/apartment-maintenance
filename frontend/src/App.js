@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -29,13 +30,31 @@ function App() {
 
         <Route
           path="/"
-          element={isLoggedIn ? <Layout /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+          element={
+            isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+          }
+        />
+
+        <Route
+          path="/login"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Login />
+            )
+          }
+        />
+        {/* 🔒 Protected routes with Layout */}
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? <Layout /> : <Navigate to="/login" />
+          }
         >
-          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="expenses" element={<Expenses />} />
         </Route>
-
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
 
       </Routes>
     </BrowserRouter>
