@@ -32,10 +32,17 @@ public class SecurityConfig {
                         .requestMatchers("/", "/error", "/favicon.ico","/index.html",
                                 "/static/**",
                                 "/*.js",
-                                "/*.css"
+                                "/*.css",
+                                "/*.png",
+                                "/*.ico",
+                                "/manifest.json"
                                 ).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-
+                        .requestMatchers(
+                                "/dashboard",
+                                "/expenses",
+                                "/login"
+                        ).permitAll()
                         // 🔥 Allow BOTH to view
                         .requestMatchers(HttpMethod.GET, "/api/expenses/**")
                         .hasAnyRole("ADMIN", "RESIDENT")
