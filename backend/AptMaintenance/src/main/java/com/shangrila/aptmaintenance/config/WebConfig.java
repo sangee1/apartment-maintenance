@@ -6,15 +6,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/{spring:\\w+}")
+
+        // Forward all routes (except API) to index.html
+        registry.addViewController("/{path:[^\\.]*}")
                 .setViewName("forward:/index.html");
 
-        registry.addViewController("/**/{spring:\\w+}")
+        registry.addViewController("/**/{path:[^\\.]*}")
                 .setViewName("forward:/index.html");
 
-        registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+        registry.addViewController("/{path:^(?!api$).*$}/**")
                 .setViewName("forward:/index.html");
     }
 }
