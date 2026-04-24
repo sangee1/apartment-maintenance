@@ -29,7 +29,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ KEY
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/error", "/favicon.ico").permitAll()
+                        .requestMatchers("/", "/error", "/favicon.ico","/index.html",
+                                "/static/**",
+                                "/*.js",
+                                "/*.css"
+                                ).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
 
                         // 🔥 Allow BOTH to view
