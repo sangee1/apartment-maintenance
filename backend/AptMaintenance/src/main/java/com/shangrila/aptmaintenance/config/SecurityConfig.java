@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.http.HttpMethod;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -28,11 +29,29 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
                 .authorizeHttpRequests(auth -> auth
 
-                        // ✅ allow everything temporarily
-                        .requestMatchers("/**").permitAll()
+                        // ✅ 🔥 THIS IS THE KEY FIX
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/error",
+                                "/static/**",
+                                "/**/*.js",
+                                "/**/*.css",
+                                "/**/*.png",
+                                "/**/*.ico"
+                        ).permitAll()
 
+                        // allow root + react
+                        .requestMatchers("/", "/index.html", "/error").permitAll()
+
+                        // allow auth
+                        .requestMatchers("/api/auth/**").permitAll()
+
+                        // everything else (temporarily open for test)
+                        .anyRequest().permitAll()
                 );
 
         return http.build();
