@@ -11,13 +11,10 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
 
         // Forward all routes (except API) to index.html
-        registry.addViewController("/{path:[^\\.]*}")
+        registry.addViewController("/{x:[\\w\\-]+}")
                 .setViewName("forward:/index.html");
 
-        registry.addViewController("/**/{path:[^\\.]*}")
-                .setViewName("forward:/index.html");
-
-        registry.addViewController("/{path:^(?!api$).*$}/**")
+        registry.addViewController("/**/{x:[\\w\\-]+}")
                 .setViewName("forward:/index.html");
     }
 }
