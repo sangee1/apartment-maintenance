@@ -109,7 +109,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         } catch (Exception e) {
             // 🔥 VERY IMPORTANT → DO NOT THROW
-            System.out.println("JWT Error: " + e.getMessage());
+            //System.out.println("JWT Error: " + e.getMessage());
         }
 
         // ✅ ALWAYS continue

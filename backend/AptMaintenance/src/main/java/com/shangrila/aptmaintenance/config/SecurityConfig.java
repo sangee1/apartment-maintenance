@@ -41,8 +41,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/dashboard",
                                 "/expenses",
-                                "/login"
+                                "/login",
+                                "/error"
                         ).permitAll()
+
                         // 🔥 Allow BOTH to view
                         .requestMatchers(HttpMethod.GET, "/api/expenses/**")
                         .hasAnyRole("ADMIN", "RESIDENT")
