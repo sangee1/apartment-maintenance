@@ -19,6 +19,9 @@ public class AuthController {
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody AuthRequest req) {
 
+        System.out.println("LOGIN HIT");
+        System.out.println("Username: " + req.getUsername());
+        System.out.println("Password: " + req.getPassword());
         if ("admin".equals(req.getUsername()) &&
                 "admin123".equals(req.getPassword())) {
 
