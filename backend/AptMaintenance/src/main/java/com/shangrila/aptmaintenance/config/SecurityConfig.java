@@ -70,6 +70,15 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+
+                        // ✅ ADD THIS
+                        .requestMatchers(HttpMethod.GET, "/api/payments/**")
+                        .hasAnyRole("ADMIN", "RESIDENT")
+
+                        // ADMIN only actions
+                        .requestMatchers(HttpMethod.PUT, "/api/payments/**")
+                        .hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter,
