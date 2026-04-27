@@ -80,8 +80,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // ✅ Allow auth endpoints
-        if (path.startsWith("/api/auth")) {
+        // 🔥 SKIP JWT for these paths
+        if (path.startsWith("/api/auth") ||
+                path.equals("/") ||
+                path.equals("/index.html") ||
+                path.startsWith("/static") ||
+                path.startsWith("/error")) {
+
             filterChain.doFilter(request, response);
             return;
         }
@@ -94,7 +99,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 String token = header.substring(7);
 
                 String username = jwtUtil.extractUsername(token);
-
                 String role = jwtUtil.extractRole(token);
 
                 UsernamePasswordAuthenticationToken auth =
@@ -108,11 +112,11 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            // 🔥 VERY IMPORTANT → DO NOT THROW
-            //System.out.println("JWT Error: " + e.getMessage());
+            // 🔥 NEVER throw
+            System.out.println("JWT error: " + e.getMessage());
         }
 
-        // ✅ ALWAYS continue
+        // 🔥 ALWAYS continue
         filterChain.doFilter(request, response);
     }
 }

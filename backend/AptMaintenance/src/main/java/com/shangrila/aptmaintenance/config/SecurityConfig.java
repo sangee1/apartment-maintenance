@@ -32,6 +32,8 @@ public class SecurityConfig {
                         .requestMatchers("/", "/error", "/favicon.ico","/index.html",
                                 "/static/**",
                                 "/*.js",
+                                "/**/*.js",
+                                "/**/*.css",
                                 "/*.css",
                                 "/*.png",
                                 "/*.ico",
@@ -75,7 +77,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of("http://localhost:3000",
-                "https://apartment-maintenance-eight.vercel.app/"));
+                "https://apartment-maintenance-eight.vercel.app"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
