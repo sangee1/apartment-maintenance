@@ -26,47 +26,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ KEY
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/error", "/favicon.ico","/index.html",
-                                "/static/**",
-                                "/*.js",
-                                "/**/*.js",
-                                "/**/*.css",
-                                "/*.css",
-                                "/*.png",
-                                "/*.ico",
-                                "/manifest.json"
-                                ).permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(
-                                "/dashboard",
-                                "/expenses",
-                                "/login",
-                                "/error"
-                        ).permitAll()
 
-                        // 🔥 Allow BOTH to view
-                        .requestMatchers(HttpMethod.GET, "/api/expenses/**")
-                        .hasAnyRole("ADMIN", "RESIDENT")
+                        // ✅ allow everything temporarily
+                        .requestMatchers("/**").permitAll()
 
-                        // 🔥 Only ADMIN can modify
-                        .requestMatchers(HttpMethod.POST, "/api/expenses/**")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.PUT, "/api/expenses/**")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.DELETE, "/api/expenses/**")
-                        .hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/payments/**")
-                        .hasRole("ADMIN")
-
-                        .anyRequest().authenticated()
                 );
-
 
         return http.build();
     }
