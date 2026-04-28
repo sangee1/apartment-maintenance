@@ -20,17 +20,17 @@ public class AuthController {
     public Map<String, String> login(@RequestBody AuthRequest req) {
 
         System.out.println("LOGIN HIT");
-        System.out.println("Username: " + req.getUsername());
-        System.out.println("Password: " + req.getPassword());
-        if ("admin".equals(req.getUsername()) &&
-                "admin123".equals(req.getPassword())) {
+        System.out.println("[" + req.getUsername() + "]");
+        System.out.println("[" + req.getPassword() + "]");
+        if ("admin".equals(req.getUsername().trim()) &&
+                "admin123".equals(req.getPassword().trim())) {
 
             String token = jwtUtil.generateToken("admin", "ADMIN");
             return Map.of("token", token);
         }
 
-        if ("user".equals(req.getUsername()) &&
-                "user123".equals(req.getPassword())) {
+        if ("user".equals(req.getUsername().trim()) &&
+                "user123".equals(req.getPassword().trim())) {
 
             String token = jwtUtil.generateToken("user", "RESIDENT");
             return Map.of("token", token);
