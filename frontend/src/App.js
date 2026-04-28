@@ -26,41 +26,38 @@ function App() {
       <CssBaseline />
       {/* 👉 Router goes INSIDE ThemeProvider */}
       <BrowserRouter>
-      <Routes>
+        <Routes>
 
-        <Route
-          path="/"
-          element={
-            isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
-          }
-        />
+          <Route
+            path="/"
+            element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />}
+          />
 
-        <Route
-          path="/login"
-          element={
-            isLoggedIn ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <Login />
-            )
-          }
-        />
-        {/* 🔒 Protected routes with Layout */}
-        <Route
-          path="/"
-          element={
-            isLoggedIn ? <Layout /> : <Navigate to="/login" />
-          }
-        >
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="expenses" element={<Expenses />} />
-        </Route>
+          <Route
+            path="/login"
+            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+          />
 
-      </Routes>
-    </BrowserRouter>
-      
+          <Route
+            path="/dashboard"
+            element={
+              isLoggedIn ? (
+                <Layout setIsLoggedIn={setIsLoggedIn} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="expenses" element={<Expenses />} />
+          </Route>
+
+
+        </Routes>
+      </BrowserRouter>
+
     </ThemeProvider>
-    
+
   );
 }
 
