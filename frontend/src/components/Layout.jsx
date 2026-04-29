@@ -10,6 +10,7 @@ import {
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 
 const drawerWidth = 220;
 
@@ -24,8 +25,9 @@ const Layout = () => {
 };
 
   const menuItems = [
-    { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
-    { text: "Expenses", icon: <ReceiptIcon />, path: "/dashboard/expenses" },
+    { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
+  { text: "Expenses", icon: <ReceiptIcon />, path: "/dashboard/expenses" },
+  { text: "Reports", icon: <AssessmentIcon />, path: "/dashboard/reports" }
   ];
 
   return (

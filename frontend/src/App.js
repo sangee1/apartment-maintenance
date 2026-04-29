@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import Expenses from "./pages/Expenses";
+import Reports from "./pages/Reports";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -50,6 +51,7 @@ function App() {
           >
             <Route index element={<Dashboard />} />
             <Route path="expenses" element={<Expenses />} />
+            <Route path="reports" element={<Reports />} />
           </Route>
 
 
