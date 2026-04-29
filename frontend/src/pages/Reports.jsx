@@ -34,24 +34,50 @@ const Reports = () => {
     };
 
     const downloadCSV = () => {
-    const rows = report.payments.map((p) => [
-      p.flat?.flatNumber,
-      p.status,
-      p.amount,
-    ]);
+        const rows = report.payments.map((p) => [
+            p.flat?.flatNumber,
+            p.status,
+            p.amount,
+        ]);
 
-    const csvContent =
-      "Flat,Status,Amount\n" +
-      rows.map((e) => e.join(",")).join("\n");
+        const csvContent =
+            "Flat,Status,Amount\n" +
+            rows.map((e) => e.join(",")).join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
+        const blob = new Blob([csvContent], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "report.csv";
-    a.click();
-  };
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "report.csv";
+        a.click();
+    };
+
+    const sortFlats = (payments) => {
+  return [...payments].sort((a, b) => {
+    const f1 = a.flat?.name || "";
+    const f2 = b.flat?.name || "";
+
+    const parseFlat = (flat) => {
+      const match = flat.match(/^([A-Z]+)(\d*)$/);
+      return {
+        block: match ? match[1] : "",
+        number: match && match[2] ? parseInt(match[2]) : 0,
+      };
+    };
+
+    const p1 = parseFlat(f1);
+    const p2 = parseFlat(f2);
+
+    // sort by number first (0,1,2,3)
+    if (p1.number !== p2.number) {
+      return p1.number - p2.number;
+    }
+
+    // then by block (A,B,C)
+    return p1.block.localeCompare(p2.block);
+  });
+};
 
     useEffect(() => {
         loadReport();
@@ -86,10 +112,10 @@ const Reports = () => {
                 Download PDF
             </button>
             <button onClick={downloadCSV}>
-  Download CSV
-</button>
+                Download CSV
+            </button>
 
-            
+
             {/* Report Display */}
             {report ? (
                 <div id="report-content">
@@ -107,7 +133,7 @@ const Reports = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {report.payments.map((p, index) => (
+                            {sortFlats(report.payments).map((p, index) => (
                                 <tr key={index}>
                                     <td>{p.flat?.name}</td>
                                     <td>{p.status}</td>
