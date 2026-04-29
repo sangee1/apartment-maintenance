@@ -18,12 +18,14 @@ const Layout = () => {
 
   const handleLogout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  
   navigate("/login");
 };
 
   const menuItems = [
     { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
-    { text: "Expenses", icon: <ReceiptIcon />, path: "/expenses" },
+    { text: "Expenses", icon: <ReceiptIcon />, path: "/dashboard/expenses" },
   ];
 
   return (
