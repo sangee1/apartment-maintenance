@@ -53,28 +53,28 @@ const Reports = () => {
         a.click();
     };
 
-    const sortFlats = (payments) => {
+   const sortFlats = (payments) => {
   return [...payments].sort((a, b) => {
-    const f1 = a.flat?.name || "";
-    const f2 = b.flat?.name || "";
+    const f1 = (a.flat?.name || "").trim().toUpperCase();
+    const f2 = (b.flat?.name || "").trim().toUpperCase();
 
     const parseFlat = (flat) => {
-      const match = flat.match(/^([A-Z]+)(\d*)$/);
+      const match = flat.match(/^([A-Z]+)(\d+)?$/);
       return {
         block: match ? match[1] : "",
-        number: match && match[2] ? parseInt(match[2]) : 0,
+        number: match && match[2] ? parseInt(match[2], 10) : 0,
       };
     };
 
     const p1 = parseFlat(f1);
     const p2 = parseFlat(f2);
 
-    // sort by number first (0,1,2,3)
+    // ✅ FIRST: sort by number (A=0 comes before A1=1)
     if (p1.number !== p2.number) {
       return p1.number - p2.number;
     }
 
-    // then by block (A,B,C)
+    // ✅ SECOND: sort by block (A, B, C)
     return p1.block.localeCompare(p2.block);
   });
 };
