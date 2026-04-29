@@ -20,4 +20,6 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.year=:year AND p.status='UNPAID'")
     BigDecimal totalPending(int year);
+
+    List<Payment> findByYearAndQuarter(int year, Quarter quarter);
 }
