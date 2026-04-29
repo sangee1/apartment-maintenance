@@ -65,7 +65,7 @@ const Reports = () => {
             <tbody>
               {report.payments.map((p, index) => (
                 <tr key={index}>
-                  <td>{p.flatNumber}</td>
+                  <td>{p.flat?.flatNumber}</td>
                   <td>{p.status}</td>
                   <td>₹{p.amount}</td>
                 </tr>
